@@ -1,19 +1,19 @@
--- Assets                                                         = {
--- Asset("IMAGE", "images/skilltree/wilson_skilltree.tex"),
--- Asset("ATLAS", "images/skilltree/wilson_skilltree.xml"),
--- }
+Assets = {
+    Asset("IMAGE", "images/skilltree/wilson_skilltree.tex"),
+    Asset("ATLAS", "images/skilltree/wilson_skilltree.xml"),
+}
 
 ----------------------------------------------------------------------------------
 -- Test to see if new skill tree can be registered
 -- Register skill tree background and icons
--- RegisterSkilltreeBGForCharacter("images/skilltree/wilson_skilltree.xml", "wilson")
+RegisterSkilltreeBGForCharacter("images/skilltree/wilson_skilltree.xml", "wilson")
 -- RegisterSkilltreeIconsAtlas("", "")
 ----------------------------------------------------------------------------------
 
-local STRINGS                                                    = GLOBAL.STRINGS
-local TUNING                                                     = GLOBAL.TUNING
-local EQUIPSLOTS                                                 = GLOBAL.EQUIPSLOTS
--- The "Backpack slot" mod (workshop-1582457351) replaces EQUIPSLOTS entirely, dropping BEARD.
+local STRINGS    = GLOBAL.STRINGS
+local TUNING     = GLOBAL.TUNING
+local EQUIPSLOTS = GLOBAL.EQUIPSLOTS
+-- The "Backpack slot" mod replaces EQUIPSLOTS entirely, dropping BEARD.
 -- Restore it so beard_sack.lua doesn't crash when Wilson's beard grows.
 if EQUIPSLOTS.BEARD == nil then
     EQUIPSLOTS.BEARD = "beard"
@@ -21,28 +21,24 @@ end
 local Ingredient                                                 = GLOBAL.Ingredient
 local AllRecipes                                                 = GLOBAL.AllRecipes
 
--- Index of 0.5 in the classified net_tinybyte (INGREDIENT_MOD[0.5] = 2).
-local INGREDIENT_MOD_HALF                                        = 2
-
 -- String overrides
 STRINGS.SKILLTREE.PANELS.LIGHT                                   = "LIGHT"
 STRINGS.SKILLTREE.WILSON.WILSON_TORCH_3_TITLE                    = "Torch Longevity"
 STRINGS.SKILLTREE.WILSON.WILSON_TORCH_3_DESC                     = "Wilson's torches burn 50% longer."
 STRINGS.SKILLTREE.WILSON.WILSON_TORCH_6_TITLE                    = "Torch Range"
 STRINGS.SKILLTREE.WILSON.WILSON_TORCH_6_DESC                     = "Wilson's torches emit a greatly expanded light radius."
-STRINGS.SKILLTREE.WILSON.WILSON_TORCH_1_LOCK_DESC                = "Learn 2 Light skills to unlock."
-STRINGS.SKILLTREE.WILSON.WILSON_LIGHT_LOCK_2_DESC                = "Unlock all 3 Light skills to access these."
+STRINGS.SKILLTREE.WILSON.WILSON_TORCH_1_LOCK_DESC                = "Unlock at least 1 Light skill to access this."
+STRINGS.SKILLTREE.WILSON.WILSON_LIGHT_LOCK_2_DESC                = "Unlock at least 2 Light skills to access these."
 STRINGS.SKILLTREE.WILSON.WILSON_LIGHT_CRAFTING_TITLE             = "Efficient Illumination"
-STRINGS.SKILLTREE.WILSON.WILSON_LIGHT_CRAFTING_DESC              = "Light tab recipes cost 50% fewer resources (rounded up, minimum 1)."
+STRINGS.SKILLTREE.WILSON.WILSON_LIGHT_CRAFTING_DESC              =
+"Light tab recipes cost 50% fewer resources (rounded up, minimum 1)."
 STRINGS.SKILLTREE.WILSON.WILSON_LIGHT_REFUEL_TITLE               = "Masterful Refueling"
 STRINGS.SKILLTREE.WILSON.WILSON_LIGHT_REFUEL_DESC                = "Wilson refuels light sources at 50% greater efficiency."
 STRINGS.SKILLTREE.WILSON.WILSON_LIGHT_SPEED_TITLE                = "Light-Footed"
 STRINGS.SKILLTREE.WILSON.WILSON_LIGHT_SPEED_DESC                 = "Wilson moves 10% faster while a light item is equipped in any slot."
 STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_1_DESC                   = "Transform 2 Twigs into a Log.\nTransform a Log into 2 Twigs."
 STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_2_DESC                   =
-    "Transform a Red Gem into a Blue Gem. Transform a Blue Gem into a Red Gem.\n" ..
-    "Transform a Red and Blue Gem into a Purple Gem.\n" ..
-    "Transform 2 Purple Gems into an Orange Gem."
+"Transform a Red Gem into a Blue Gem. Transform a Blue Gem into a Red Gem.Transform a Red and Blue Gem into a Purple Gem. Transform 2 Purple Gems into an Orange Gem."
 STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_5_TITLE                  = "Transmute Gems II"
 STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_5_DESC                   =
     "Transform 2 Orange Gems into a Yellow Gem.\n" ..
@@ -80,7 +76,7 @@ STRINGS.RECIPE_DESC.TRANSMUTE_GOOSE_FEATHER_TO_DRAGON_SCALES     = "Transmute Do
 STRINGS.RECIPE_DESC.TRANSMUTE_DRAGON_SCALES_TO_BEARGER_FUR       = "Transmute Dragonfly Scale into Thick Fur."
 
 -- Transmute recipes
-local DISABLED_SKILL = "wilson_alchemy_disabled"
+local DISABLED_SKILL                                             = "wilson_alchemy_disabled"
 local function SetIngredients(recname, ingredients)
     local r = AllRecipes[recname]
     if r then r.ingredients = ingredients end

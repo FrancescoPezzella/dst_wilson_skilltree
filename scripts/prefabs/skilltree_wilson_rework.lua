@@ -9,6 +9,7 @@ local ORDERS =
 local function BuildSkillsData(SkillTreeFns)
     local skills =
     {
+        --------------------------------------------------------------------------
         -- LIGHT (reuses torch_3/6 IDs for vanilla behavior)
         -- 50% longer torch burn time
         wilson_torch_3 = {
@@ -40,7 +41,7 @@ local function BuildSkillsData(SkillTreeFns)
             tags      = { "light", "lock" },
             root      = true,
             lock_open = function(prefabname, activatedskills, readonly)
-                return SkillTreeFns.CountTags(prefabname, "light1", activatedskills) >= 2
+                return SkillTreeFns.CountTags(prefabname, "light1", activatedskills) >= 1
             end,
             connects  = { "wilson_torch_7" },
         },
@@ -61,7 +62,7 @@ local function BuildSkillsData(SkillTreeFns)
             tags      = { "light", "lock" },
             root      = true,
             lock_open = function(prefabname, activatedskills, readonly)
-                return SkillTreeFns.CountTags(prefabname, "light1", activatedskills) >= 3
+                return SkillTreeFns.CountTags(prefabname, "light1", activatedskills) >= 2
             end,
             connects  = { "wilson_light_crafting", "wilson_light_refuel", "wilson_light_speed" },
         },
@@ -101,9 +102,8 @@ local function BuildSkillsData(SkillTreeFns)
                 if not fromload then inst:PushEvent("wilson_light_skill_changed") end
             end,
         },
-
+        --------------------------------------------------------------------------
         -- ALCHEMY (branches condensed 3 tiers → 2, IDs reused for vanilla compat)
-
         wilson_alchemy_1 = {
             title    = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_1_TITLE,
             desc     = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_1_DESC,
@@ -118,7 +118,7 @@ local function BuildSkillsData(SkillTreeFns)
             title    = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_2_TITLE,
             desc     = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_2_DESC,
             icon     = "wilson_alchemy_gem_1",
-            pos      = { -62 + 4, 176 - 54 },
+            pos      = { -62 + 4, 190 - 54 },
             group    = "alchemy",
             tags     = { "alchemy", "trans1" },
             connects = { "wilson_alchemy_5" },
@@ -127,7 +127,7 @@ local function BuildSkillsData(SkillTreeFns)
             title = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_5_TITLE,
             desc  = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_5_DESC,
             icon  = "wilson_alchemy_gem_2",
-            pos   = { -62 + 4, 176 - 54 - 38 },
+            pos   = { -62 + 4, 190 - 54 - 38 },
             group = "alchemy",
             tags  = { "alchemy", "trans1" },
         },
@@ -135,7 +135,7 @@ local function BuildSkillsData(SkillTreeFns)
             title    = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_3_TITLE,
             desc     = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_3_DESC,
             icon     = "wilson_alchemy_ore_1",
-            pos      = { -62 - 38 + 4, 176 - 54 },
+            pos      = { -62 - 38 + 4, 190 - 54 },
             group    = "alchemy",
             tags     = { "alchemy", "trans1" },
             connects = { "wilson_alchemy_7" },
@@ -144,7 +144,7 @@ local function BuildSkillsData(SkillTreeFns)
             title = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_7_TITLE,
             desc  = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_7_DESC,
             icon  = "wilson_alchemy_ore_2",
-            pos   = { -62 - 38 + 4, 176 - 54 - 38 },
+            pos   = { -62 - 38 + 4, 190 - 54 - 38 },
             group = "alchemy",
             tags  = { "alchemy", "trans1" },
         },
@@ -152,7 +152,7 @@ local function BuildSkillsData(SkillTreeFns)
             title    = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_4_TITLE,
             desc     = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_4_DESC,
             icon     = "wilson_alchemy_iky_1",
-            pos      = { -62 + 38 + 4, 176 - 54 },
+            pos      = { -62 + 38 + 4, 190 - 54 },
             group    = "alchemy",
             tags     = { "alchemy", "trans1" },
             connects = { "wilson_alchemy_9" },
@@ -161,7 +161,7 @@ local function BuildSkillsData(SkillTreeFns)
             title = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_9_TITLE,
             desc  = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_9_DESC,
             icon  = "wilson_alchemy_iky_2",
-            pos   = { -62 + 38 + 4, 176 - 54 - 38 },
+            pos   = { -62 + 38 + 4, 190 - 54 - 38 },
             group = "alchemy",
             tags  = { "alchemy", "trans1" },
         },
@@ -169,7 +169,7 @@ local function BuildSkillsData(SkillTreeFns)
         -- Lock for boss transmutes: requires 4+ transmute skills
         wilson_alchemy_6 = {
             desc      = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_6_LOCK_DESC,
-            pos       = { -62 - 38 + 4, 176 - 54 - 38 - 38 },
+            pos       = { -62 - 38 + 4, 24 },
             group     = "alchemy",
             tags      = { "alchemy", "lock" },
             root      = true,
@@ -179,29 +179,28 @@ local function BuildSkillsData(SkillTreeFns)
             connects  = { "wilson_alchemy_8" },
         },
 
-        -- Boss transmutes I: thick fur ↔ deerclops eyeball, eyeball → 10 down feathers
+        -- Boss transmutes I: thick fur > deerclops eyeball, eyeball > 10 down feathers
         wilson_alchemy_8 = {
             title    = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_8_TITLE,
             desc     = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_8_DESC,
             icon     = "wilson_alchemy_ore_1",
-            pos      = { -62 + 4, 176 - 54 - 38 - 38 },
+            pos      = { -62 + 4, 24 },
             group    = "alchemy",
             tags     = { "alchemy" },
             connects = { "wilson_alchemy_10" },
         },
 
-        -- Boss transmutes II: 10 down feathers ↔ dragonfly scale, scale → thick fur
+        -- Boss transmutes II: 10 down feathers > dragonfly scale, scale > thick fur
         wilson_alchemy_10 = {
             title = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_10_TITLE,
             desc  = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_10_DESC,
             icon  = "wilson_alchemy_ore_2",
-            pos   = { -62 + 38 + 4, 176 - 54 - 38 - 38 },
+            pos   = { -62 + 38 + 4, 24 },
             group = "alchemy",
             tags  = { "alchemy" },
         },
-
+        --------------------------------------------------------------------------
         -- BEARD (3 columns: insulation, growth, shaved; IDs reused for vanilla compat)
-
         wilson_beard_2 = {
             title    = STRINGS.SKILLTREE.WILSON.WILSON_BEARD_2_TITLE,
             desc     = STRINGS.SKILLTREE.WILSON.WILSON_BEARD_2_DESC,
@@ -326,11 +325,8 @@ local function BuildSkillsData(SkillTreeFns)
                 if not fromload then inst:PushEvent("wilson_beard_skill_changed") end
             end,
         },
-
-        -- -------------------------------------------------------------------------
+        --------------------------------------------------------------------------
         -- ALLEGIANCE (unchanged from vanilla)
-        -- -------------------------------------------------------------------------
-
         wilson_allegiance_lock_1 = {
             desc      = STRINGS.SKILLTREE.WILSON.WILSON_ALLEGIANCE_LOCK_1_DESC,
             pos       = { 204 + 2, 176 },
@@ -460,6 +456,7 @@ local function BuildSkillsData(SkillTreeFns)
                 end
             end,
         },
+        --------------------------------------------------------------------------
     }
 
     return {

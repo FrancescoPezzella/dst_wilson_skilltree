@@ -2,7 +2,7 @@ name = "Wilson Skill Tree Rework"
 description =
 "A rework to Wilson's Skill Tree, preserving his original jack of all trades beginner friendly character type with many new improvements."
 author = "escondido222"
-version = "0.1.3"
+version = "0.1.4"
 forumthread = ""
 
 icon_atlas = "images/wilson_sigma_3.xml"
