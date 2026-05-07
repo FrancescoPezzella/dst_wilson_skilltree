@@ -18,8 +18,8 @@ local function CustomIcon(tex_name)
         end,
         onlocked = function(button, initial)
             if button._skill_icon then
-                -- "selectable.tex" = available but not yet purchased → full color
-                -- anything else (unselected.tex) = not available yet → dim
+                -- "selectable.tex" = available but not yet purchased > full color
+                -- anything else (unselected.tex) = not available yet > dim
                 if button._current_ring_tex == "selectable.tex" then
                     button._skill_icon:SetTint(1, 1, 1, 1)
                 else
@@ -38,6 +38,7 @@ local ORDERS =
     { "light",      { -190, 176 + 30 } },
     { "alchemy",    { -62, 176 + 30 } },
     { "beard",      { 85, 176 + 30 } },
+    { "survival",   { 85, 24 + 30 } },
     { "allegiance", { 204, 176 + 30 } },
 }
 
@@ -154,7 +155,7 @@ local function BuildSkillsData(SkillTreeFns)
         wilson_alchemy_2 = {
             title    = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_2_TITLE,
             desc     = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_2_DESC,
-            icon     = "wilson_alchemy_gem_1",
+            icon     = "wilson_alchemy_gem_2",
             pos      = { -62 + 4, 190 - 54 },
             group    = "alchemy",
             tags     = { "alchemy", "trans1" },
@@ -164,7 +165,7 @@ local function BuildSkillsData(SkillTreeFns)
         wilson_alchemy_5 = {
             title = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_5_TITLE,
             desc  = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_5_DESC,
-            icon  = "wilson_alchemy_gem_2",
+            icon  = "wilson_alchemy_gem_3",
             pos   = { -62 + 4, 190 - 54 - 38 },
             group = "alchemy",
             tags  = { "alchemy", "trans1" },
@@ -173,7 +174,7 @@ local function BuildSkillsData(SkillTreeFns)
         wilson_alchemy_3 = {
             title    = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_3_TITLE,
             desc     = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_3_DESC,
-            icon     = "wilson_alchemy_ore_1",
+            icon     = "wilson_alchemy_ore_2",
             pos      = { -62 - 38 + 4, 190 - 54 },
             group    = "alchemy",
             tags     = { "alchemy", "trans1" },
@@ -183,7 +184,7 @@ local function BuildSkillsData(SkillTreeFns)
         wilson_alchemy_7 = {
             title = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_7_TITLE,
             desc  = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_7_DESC,
-            icon  = "wilson_alchemy_ore_2",
+            icon  = "wilson_alchemy_ore_3",
             pos   = { -62 - 38 + 4, 190 - 54 - 38 },
             group = "alchemy",
             tags  = { "alchemy", "trans1" },
@@ -192,7 +193,7 @@ local function BuildSkillsData(SkillTreeFns)
         wilson_alchemy_4 = {
             title    = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_4_TITLE,
             desc     = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_4_DESC,
-            icon     = "wilson_alchemy_iky_1",
+            icon     = "wilson_alchemy_iky_2",
             pos      = { -62 + 38 + 4, 190 - 54 },
             group    = "alchemy",
             tags     = { "alchemy", "trans1" },
@@ -202,7 +203,7 @@ local function BuildSkillsData(SkillTreeFns)
         wilson_alchemy_9 = {
             title = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_9_TITLE,
             desc  = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_9_DESC,
-            icon  = "wilson_alchemy_iky_2",
+            icon  = "wilson_alchemy_iky_3",
             pos   = { -62 + 38 + 4, 190 - 54 - 38 },
             group = "alchemy",
             tags  = { "alchemy", "trans1" },
@@ -211,7 +212,7 @@ local function BuildSkillsData(SkillTreeFns)
         -- Lock for boss transmutes
         wilson_alchemy_6 = {
             desc      = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_6_LOCK_DESC,
-            pos       = { -62 - 38 + 4, 24 },
+            pos       = { -62 - 38 + 4, 24 + 24 },
             group     = "alchemy",
             tags      = { "alchemy", "lock" },
             root      = true,
@@ -223,23 +224,23 @@ local function BuildSkillsData(SkillTreeFns)
 
         -- Boss transmutes I: thick fur > deerclops eyeball, eyeball > 10 down feathers
         wilson_alchemy_8 = {
-            title    = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_8_TITLE,
-            desc     = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_8_DESC,
-            icon     = "wilson_alchemy_ore_1",
-            pos      = { -62 + 4, 24 },
-            group    = "alchemy",
-            tags     = { "alchemy" },
-            connects = { "wilson_alchemy_10" },
+            title              = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_8_TITLE,
+            desc               = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_8_DESC,
+            button_decorations = CustomIcon("icon-boss-deerclops"),
+            pos                = { -62 + 4, 24 + 24 },
+            group              = "alchemy",
+            tags               = { "alchemy" },
+            connects           = { "wilson_alchemy_10" },
         },
 
         -- Boss transmutes II: 10 down feathers > dragonfly scale, scale > thick fur
         wilson_alchemy_10 = {
-            title = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_10_TITLE,
-            desc  = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_10_DESC,
-            icon  = "wilson_alchemy_ore_2",
-            pos   = { -62 + 38 + 4, 24 },
-            group = "alchemy",
-            tags  = { "alchemy" },
+            title              = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_10_TITLE,
+            desc               = STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_10_DESC,
+            button_decorations = CustomIcon("icon-boss-moose"),
+            pos                = { -62 + 38 + 4, 24 + 24 },
+            group              = "alchemy",
+            tags               = { "alchemy" },
         },
         --------------------------------------------------------------------------
         -- BEARD
@@ -279,7 +280,7 @@ local function BuildSkillsData(SkillTreeFns)
             root               = true,
         },
 
-        wilson_beard_hair = {
+        wilson_beard_beast = {
             title              = STRINGS.SKILLTREE.WILSON.WILSON_BEARD_BEAST_TITLE,
             desc               = STRINGS.SKILLTREE.WILSON.WILSON_BEARD_BEAST_DESC,
             button_decorations = CustomIcon("icon-beast"),
@@ -301,7 +302,7 @@ local function BuildSkillsData(SkillTreeFns)
 
         wilson_beard_lock_1 = {
             desc      = STRINGS.SKILLTREE.WILSON.WILSON_BEARD_1_LOCK_DESC,
-            pos       = { 85, 100 },
+            pos       = { 47, 96 },
             group     = "beard",
             tags      = { "beard", "lock" },
             root      = true,
@@ -315,7 +316,7 @@ local function BuildSkillsData(SkillTreeFns)
             title        = STRINGS.SKILLTREE.WILSON.WILSON_BEARD_7_TITLE,
             desc         = STRINGS.SKILLTREE.WILSON.WILSON_BEARD_7_DESC,
             icon         = "wilson_beard_inventory",
-            pos          = { 85, 62 },
+            pos          = { 85, 96 },
             group        = "beard",
             tags         = { "beard" },
             connects     = { "wilson_beard_chilly" },
@@ -337,7 +338,7 @@ local function BuildSkillsData(SkillTreeFns)
             title              = STRINGS.SKILLTREE.WILSON.WILSON_BEARD_CHILLY_TITLE,
             desc               = STRINGS.SKILLTREE.WILSON.WILSON_BEARD_CHILLY_DESC,
             button_decorations = CustomIcon("icon-chilly"),
-            pos                = { 85, 24 },
+            pos                = { 123, 96 },
             group              = "beard",
             tags               = { "beard" },
             onactivate         = function(inst, fromload)
@@ -348,6 +349,19 @@ local function BuildSkillsData(SkillTreeFns)
             end,
         },
         --------------------------------------------------------------------------
+        -- SURVIVAL
+
+        -- tbd, change group from allegiance to survival
+        wilson_survival = {
+            title              = STRINGS.SKILLTREE.WILSON.WILSON_SURVIVAL_TITLE,
+            desc               = STRINGS.SKILLTREE.WILSON.WILSON_SURVIVAL_DESC,
+            button_decorations = CustomIcon("icon-survival"),
+            pos                = { 85, 24 },
+            group              = "survival",
+            tags               = { "survival" },
+            root               = true,
+        },
+        --------------------------------------------------------------------------
         -- ALLEGIANCE (reduced locks from 5 > 3)
         wilson_allegiance_lock_1 = {
             desc      = STRINGS.SKILLTREE.WILSON.WILSON_ALLEGIANCE_LOCK_1_DESC,
@@ -356,14 +370,14 @@ local function BuildSkillsData(SkillTreeFns)
             tags      = { "allegiance", "lock" },
             root      = true,
             lock_open = function(prefabname, activatedskills, readonly)
-                return SkillTreeFns.CountSkills(prefabname, activatedskills) >= 12
+                return SkillTreeFns.CountSkills(prefabname, activatedskills) >= 10
             end,
             connects  = { "wilson_allegiance_shadow", "wilson_allegiance_lunar" },
         },
 
         wilson_allegiance_lock_2 = {
             desc      = STRINGS.SKILLTREE.ALLEGIANCE_LOCK_2_DESC,
-            pos       = { 204 - 22 + 2, 176 - 50 + 2 },
+            pos       = { 204 - 22 + 2, 176 - 40 },
             group     = "allegiance",
             tags      = { "allegiance", "lock" },
             root      = true,
@@ -381,7 +395,7 @@ local function BuildSkillsData(SkillTreeFns)
             title        = STRINGS.SKILLTREE.WILSON.WILSON_ALLEGIANCE_SHADOW_TITLE,
             desc         = STRINGS.SKILLTREE.WILSON.WILSON_ALLEGIANCE_SHADOW_DESC,
             icon         = "wilson_favor_shadow",
-            pos          = { 204 - 22 + 2, 176 - 100 + 8 },
+            pos          = { 204 - 22 + 2, 176 - 84 },
             group        = "allegiance",
             tags         = { "allegiance", "shadow", "shadow_favor" },
             locks        = { "wilson_allegiance_lock_1", "wilson_allegiance_lock_2" },
@@ -409,11 +423,23 @@ local function BuildSkillsData(SkillTreeFns)
                     damagetypebonus:RemoveBonus("lunar_aligned", inst, "wilson_allegiance_shadow")
                 end
             end,
+            connects     = { "wilson_shadow_pouch" },
+        },
+
+        wilson_shadow_pouch = {
+            title              = STRINGS.SKILLTREE.WILSON.WILSON_SHADOW_POUCH_TITLE,
+            desc               = STRINGS.SKILLTREE.WILSON.WILSON_SHADOW_POUCH_DESC,
+            button_decorations = CustomIcon("shadow_pouch_wilson"),
+            pos                = { 204 - 22 + 2, 176 - 130 },
+            group              = "allegiance",
+            tags               = { "allegiance", "shadow" },
+            onactivate         = function(inst, fromload) inst:AddTag("shadow_pouch_crafter") end,
+            ondeactivate       = function(inst, fromload) inst:RemoveTag("shadow_pouch_crafter") end,
         },
 
         wilson_allegiance_lock_3 = {
             desc      = STRINGS.SKILLTREE.ALLEGIANCE_LOCK_3_DESC,
-            pos       = { 204 + 22 + 2, 176 - 50 + 2 },
+            pos       = { 204 + 22 + 2, 176 - 40 },
             group     = "allegiance",
             tags      = { "allegiance", "lock" },
             root      = true,
@@ -431,7 +457,7 @@ local function BuildSkillsData(SkillTreeFns)
             title        = STRINGS.SKILLTREE.WILSON.WILSON_ALLEGIANCE_LUNAR_TITLE,
             desc         = STRINGS.SKILLTREE.WILSON.WILSON_ALLEGIANCE_LUNAR_DESC,
             icon         = "wilson_favor_lunar",
-            pos          = { 204 + 22 + 2, 176 - 100 + 8 },
+            pos          = { 204 + 22 + 2, 176 - 84 },
             group        = "allegiance",
             tags         = { "allegiance", "lunar", "lunar_favor" },
             locks        = { "wilson_allegiance_lock_1", "wilson_allegiance_lock_3" },
@@ -459,6 +485,18 @@ local function BuildSkillsData(SkillTreeFns)
                     damagetypebonus:RemoveBonus("shadow_aligned", inst, "wilson_allegiance_lunar")
                 end
             end,
+            connects     = { "wilson_lunar_pouch" },
+        },
+
+        wilson_lunar_pouch = {
+            title              = STRINGS.SKILLTREE.WILSON.WILSON_LUNAR_POUCH_TITLE,
+            desc               = STRINGS.SKILLTREE.WILSON.WILSON_LUNAR_POUCH_DESC,
+            button_decorations = CustomIcon("lunar_pouch_wilson"),
+            pos                = { 204 + 22 + 2, 176 - 130 },
+            group              = "allegiance",
+            tags               = { "allegiance", "lunar" },
+            onactivate         = function(inst, fromload) inst:AddTag("lunar_pouch_crafter") end,
+            ondeactivate       = function(inst, fromload) inst:RemoveTag("lunar_pouch_crafter") end,
         },
         --------------------------------------------------------------------------
     }
