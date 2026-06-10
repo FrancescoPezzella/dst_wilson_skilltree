@@ -76,7 +76,7 @@ STRINGS.SKILLTREE.WILSON.WILSON_LIGHT_CRAFTING_TITLE = "Efficient Illumination"
 STRINGS.SKILLTREE.WILSON.WILSON_LIGHT_CRAFTING_DESC  = "Light tab recipes cost 50% fewer resources."
 STRINGS.SKILLTREE.WILSON.WILSON_LIGHT_REFUEL_TITLE   = "Masterful Refueling"
 STRINGS.SKILLTREE.WILSON.WILSON_LIGHT_REFUEL_DESC    =
-"Wilson refuels light sources (lanterns, campfires etc) at 150% greater efficiency."
+"Wilson refuels light sources (lanterns, campfires etc) 50 % more efficiently."
 STRINGS.SKILLTREE.WILSON.WILSON_LIGHT_SPEED_TITLE    = "Light-Footed"
 STRINGS.SKILLTREE.WILSON.WILSON_LIGHT_SPEED_DESC     =
 "Wilson moves 10% faster while a light item is equipped in any slot (does not stack with multiple light items)."
@@ -107,6 +107,10 @@ local function AddTransmute(name, ingredients, builder_skill, product, image)
         description   = name,
     }, { "CHARACTER" })
 end
+
+local REVERT_ALCHEMY = GetModConfigData("revert_alchemy")
+
+if not REVERT_ALCHEMY then
 
 -- Disabled vanilla transmute recipes not used in this mod
 DisableRecipe("transmute_purplegem")
@@ -158,23 +162,27 @@ STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_3_DESC  =
     "Transform 2 Carrots into a Bunny Puff."
 STRINGS.RECIPE_DESC.TRANSMUTE_NITRE             = "Transmute Gold Nuggets into Nitre."
 STRINGS.RECIPE_DESC.TRANSMUTE_MANRABBIT_TAIL    = "Transmute Carrots into a Bunny Puff."
-SetIngredients("transmute_nitre", { Ingredient("goldnugget", 2) })
-SetBuilderSkill("transmute_nitre", "wilson_alchemy_3")
-SetIngredients("transmute_marble", { Ingredient("cutstone", 1) })
-SetBuilderSkill("transmute_marble", "wilson_alchemy_3")
+DisableRecipe("transmute_nitre")
+DisableRecipe("transmute_marble")
+AddTransmute("transmute_nitre",  { Ingredient("goldnugget", 2) }, "wilson_alchemy_3", "nitre")
+AddTransmute("transmute_marble", { Ingredient("cutstone", 1) },   "wilson_alchemy_3", "marble")
+local _cf = GLOBAL.CRAFTING_FILTERS.CHARACTER.recipes
+table.insert(_cf, "transmute_nitre")
+table.insert(_cf, "transmute_marble")
 AddTransmute("transmute_manrabbit_tail", { Ingredient("carrot", 2) }, "wilson_alchemy_3", "manrabbit_tail")
 
 -- Transmute Rare II (alchemy_7)
 STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_7_TITLE = "Transmute Rare II"
 STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_7_DESC  =
     "Transform a Volt Goat Horn into a Walrus Tusk.\n" ..
-    "Transform 3 Pig Skins into Steel Wool.\n" ..
+    "Transform a Pig Skin and 2 Beard Hair into Steel Wool.\n" ..
     "Transform 20 Logs into a Living Log."
 STRINGS.RECIPE_DESC.TRANSMUTE_WALRUS_TUSK       = "Transmute a Volt Goat Horn into a Walrus Tusk."
-STRINGS.RECIPE_DESC.TRANSMUTE_STEELWOOL         = "Transmute Pig Skin into Steel Wool."
+STRINGS.RECIPE_DESC.TRANSMUTE_STEELWOOL         = "Transmute Pig Skin and Beard Hair into Steel Wool."
 STRINGS.RECIPE_DESC.TRANSMUTE_LIVINGLOG         = "Transmute Logs into a Living Log."
 AddTransmute("transmute_walrus_tusk", { Ingredient("lightninggoathorn", 1) }, "wilson_alchemy_7", "walrus_tusk")
-AddTransmute("transmute_steelwool", { Ingredient("pigskin", 3) }, "wilson_alchemy_7", "steelwool")
+AddTransmute("transmute_steelwool", { Ingredient("pigskin", 1), Ingredient("beardhair", 2) }, "wilson_alchemy_7",
+    "steelwool")
 AddTransmute("transmute_livinglog", { Ingredient("log", 20) }, "wilson_alchemy_7", "livinglog")
 
 -- Transmute Icky I (alchemy_4)
@@ -184,21 +192,42 @@ STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_4_DESC =
     "Transform 2 Frog Legs into a Drumstick."
 STRINGS.RECIPE_DESC.TRANSMUTE_MEAT             = "Transmute Monster Meat into Meat."
 STRINGS.RECIPE_DESC.TRANSMUTE_DRUMSTICK        = "Transmute Frog Legs into a Drumstick."
-SetIngredients("transmute_meat", { Ingredient("monstermeat", 2) })
+DisableRecipe("transmute_meat")
+DisableRecipe("transmute_smallmeat")
+AddTransmute("transmute_meat", { Ingredient("monstermeat", 2) }, "wilson_alchemy_4", "meat")
+AddRecipe2("transmute_smallmeat", { Ingredient("meat", 1) }, GLOBAL.TECH.NONE, {
+    product       = "smallmeat",
+    numtogive     = 2,
+    image         = "smallmeat.tex",
+    builder_skill = "wilson_alchemy_4",
+    description   = "transmute_smallmeat",
+}, { "CHARACTER" })
+local _cf2 = GLOBAL.CRAFTING_FILTERS.CHARACTER.recipes
+table.insert(_cf2, "transmute_meat")
+table.insert(_cf2, "transmute_smallmeat")
 AddTransmute("transmute_drumstick", { Ingredient("froglegs", 2) }, "wilson_alchemy_4", "drumstick")
 
 -- Transmute Icky II (alchemy_9)
-STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_9_TITLE = "Transmute Icky II"
-STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_9_DESC  =
-    "Transform a Glow Berry into a Pomegranate.\n" ..
-    "Transform 2 Lesser Glow Berries into a Durian.\n" ..
-    "Transform 2 Cave Lichen into a Fig."
-STRINGS.RECIPE_DESC.TRANSMUTE_POMEGRANATE       = "Transmute a Glow Berry into a Pomegranate."
-STRINGS.RECIPE_DESC.TRANSMUTE_DURIAN            = "Transmute Lesser Glow Berries into a Durian."
-STRINGS.RECIPE_DESC.TRANSMUTE_FIG               = "Transmute Cave Lichen into a Fig."
-AddTransmute("transmute_pomegranate", { Ingredient("wormlight", 1) }, "wilson_alchemy_9", "pomegranate")
-AddTransmute("transmute_durian", { Ingredient("wormlight_lesser", 2) }, "wilson_alchemy_9", "durian")
-AddTransmute("transmute_fig", { Ingredient("cutlichen", 2) }, "wilson_alchemy_9", "fig")
+STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_9_TITLE             = "Transmute Icky II"
+STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_9_DESC              =
+    "Transform 2 Butterfly Wings into Moon Moth Wings.\n" ..
+    "Transform Glommer Wings into 2 Glommer Goop.\n" ..
+    "Transform 2 Slurtle Slime into Milky Whites."
+STRINGS.RECIPE_DESC.TRANSMUTE_MOONBUTTERFLYWINGS            = "Transmute Butterfly Wings into Moon Moth Wings."
+STRINGS.RECIPE_DESC.TRANSMUTE_GLOMMERFUEL_FROM_GLOMMERWINGS = "Transmute Glommer Wings into Glommer Goop."
+STRINGS.RECIPE_DESC.TRANSMUTE_MILKYWHITES                   = "Transmute Slurtle Slime into Milky Whites."
+AddTransmute("transmute_moonbutterflywings",
+    { Ingredient("butterflywings", 2) }, "wilson_alchemy_9", "moonbutterflywings")
+AddRecipe2("transmute_glommerfuel_from_glommerwings",
+    { Ingredient("glommerwings", 1) }, GLOBAL.TECH.NONE, {
+        product       = "glommerfuel",
+        numtogive     = 2,
+        image         = "glommerfuel.tex",
+        builder_skill = "wilson_alchemy_9",
+        description   = "transmute_glommerfuel_from_glommerwings",
+    }, { "CHARACTER" })
+AddTransmute("transmute_milkywhites",
+    { Ingredient("slurtleslime", 2) }, "wilson_alchemy_9", "milkywhites")
 
 -- Boss Transmute Lock (alchemy_6)
 STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_6_LOCK_DESC              = "Unlock at least 3 Transmute skills to access these."
@@ -207,9 +236,11 @@ STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_6_LOCK_DESC              = "Unlock at le
 STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_8_TITLE                  = "Transmute Boss I"
 STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_8_DESC                   =
     "Transform a Thick Fur into a Deerclops Eyeball.\n" ..
-    "Transform a Deerclops Eyeball into 10 Down Feathers."
+    "Transform a Deerclops Eyeball into 10 Down Feathers.\n" ..
+    "Transform 2 Down Feathers into a Malbatross Feather."
 STRINGS.RECIPE_DESC.TRANSMUTE_BEARGER_FUR_TO_DEERCLOPS_EYEBALL   = "Transmute Thick Fur into Deerclops Eyeball."
 STRINGS.RECIPE_DESC.TRANSMUTE_DEERCLOPS_EYEBALL_TO_GOOSE_FEATHER = "Transmute Deerclops Eyeball into Down Feathers."
+STRINGS.RECIPE_DESC.TRANSMUTE_MALBATROSS_FEATHER_FROM_GOOSE      = "Transmute Down Feathers into a Malbatross Feather."
 AddTransmute("transmute_bearger_fur_to_deerclops_eyeball",
     { Ingredient("bearger_fur", 1) }, "wilson_alchemy_8", "deerclops_eyeball")
 AddRecipe2("transmute_deerclops_eyeball_to_goose_feather",
@@ -220,18 +251,32 @@ AddRecipe2("transmute_deerclops_eyeball_to_goose_feather",
         builder_skill = "wilson_alchemy_8",
         description   = "transmute_deerclops_eyeball_to_goose_feather",
     }, { "CHARACTER" })
+AddTransmute("transmute_malbatross_feather_from_goose",
+    { Ingredient("goose_feather", 2) }, "wilson_alchemy_8", "malbatross_feather")
 
 -- Transmute Boss II (alchemy_10)
 STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_10_TITLE             = "Transmute Boss II"
 STRINGS.SKILLTREE.WILSON.WILSON_ALCHEMY_10_DESC              =
     "Transform 10 Down Feathers into a Dragonfly Scale.\n" ..
-    "Transform a Dragonfly Scale into a Thick Fur."
+    "Transform a Dragonfly Scale into a Thick Fur.\n" ..
+    "Transform a Malbatross Feather into 2 Down Feathers."
 STRINGS.RECIPE_DESC.TRANSMUTE_GOOSE_FEATHER_TO_DRAGON_SCALES = "Transmute Down Feathers into Dragonfly Scale."
 STRINGS.RECIPE_DESC.TRANSMUTE_DRAGON_SCALES_TO_BEARGER_FUR   = "Transmute Dragonfly Scale into Thick Fur."
+STRINGS.RECIPE_DESC.TRANSMUTE_GOOSE_FEATHER_FROM_MALBATROSS  = "Transmute a Malbatross Feather into Down Feathers."
 AddTransmute("transmute_goose_feather_to_dragon_scales",
     { Ingredient("goose_feather", 10) }, "wilson_alchemy_10", "dragon_scales")
 AddTransmute("transmute_dragon_scales_to_bearger_fur",
     { Ingredient("dragon_scales", 1) }, "wilson_alchemy_10", "bearger_fur")
+AddRecipe2("transmute_goose_feather_from_malbatross",
+    { Ingredient("malbatross_feather", 1) }, GLOBAL.TECH.NONE, {
+        product       = "goose_feather",
+        numtogive     = 2,
+        image         = "goose_feather.tex",
+        builder_skill = "wilson_alchemy_10",
+        description   = "transmute_goose_feather_from_malbatross",
+    }, { "CHARACTER" })
+
+end -- REVERT_ALCHEMY
 
 -- Allegiance transmutes (skill-gated by shadow / lunar allegiance)
 STRINGS.RECIPE_DESC.TRANSMUTE_HORRORFUEL_FROM_NIGHTMAREFUEL    = "Transmute Nightmare Fuel into Pure Horror."
@@ -304,13 +349,15 @@ STRINGS.SKILLTREE.WILSON.WILSON_BEARD_3_DESC       = "Wilson's beard provides 70
 STRINGS.SKILLTREE.WILSON.WILSON_BEARD_6_TITLE      = "Beard Growth"
 STRINGS.SKILLTREE.WILSON.WILSON_BEARD_6_DESC       = "Wilson's beard grows significantly faster."
 STRINGS.SKILLTREE.WILSON.WILSON_BEARD_SHAVED_TITLE = "Clean Shaven"
-STRINGS.SKILLTREE.WILSON.WILSON_BEARD_SHAVED_DESC  = "Shaving grants an additional 40 sanity (50 total)."
+STRINGS.SKILLTREE.WILSON.WILSON_BEARD_SHAVED_DESC  =
+"Shaving grants an additional 40 sanity (50 total) and 50% more Beard Hair."
 
 STRINGS.SKILLTREE.WILSON.WILSON_BEARD_BEAST_TITLE  = "Beast of a Man"
-STRINGS.SKILLTREE.WILSON.WILSON_BEARD_BEAST_DESC   = "Gain double the amount of beard hair from shaving."
+STRINGS.SKILLTREE.WILSON.WILSON_BEARD_BEAST_DESC   =
+"Gain 2.5%, 5%, or 7.5% protection against physical damage based on your beard's length (stage 1/2/3)."
 STRINGS.SKILLTREE.WILSON.WILSON_BEARD_GOOP_TITLE   = "Five o' Clock Shadow"
 STRINGS.SKILLTREE.WILSON.WILSON_BEARD_GOOP_DESC    =
-"Consume Glommer's Goop to instantly grow your beard to the next level."
+"Consume Glommer's Goop, Milky Whites, or Phlegm to instantly grow your beard to the next level."
 
 STRINGS.SKILLTREE.WILSON.WILSON_BEARD_1_LOCK_DESC  = "Unlock at least 3 Beard skills to access these."
 -- Beard storage skill unchanged
@@ -415,9 +462,8 @@ local function ApplyShavedSanityBonus(inst)
     end
 end
 
--- Beast of a Man: spawn extra beard hair equal to what was dropped when shaving
-local function DoubleBeardHair(beard, bits_before)
-    local extra = bits_before - beard.bits
+local function SpawnBonusBeardHair(beard, bits_before, mult)
+    local extra = math.ceil((bits_before - beard.bits) * mult)
     if extra > 0 and beard.prize ~= nil then
         for k = 1, extra do
             local bit = GLOBAL.SpawnPrefab(beard.prize)
@@ -430,6 +476,29 @@ local function DoubleBeardHair(beard, bits_before)
     end
 end
 
+local function RefreshBeastProtection(inst)
+    local stu = inst.components.skilltreeupdater
+    local combat = inst.components.combat
+    if not combat then return end
+
+    if not (stu and stu:IsActivated("wilson_beard_beast")) then
+        combat.externaldamagetakenmultipliers:RemoveModifier(inst, "wilson_beard_beast")
+        return
+    end
+
+    local bits = inst.components.beard and inst.components.beard.bits or 0
+    local BITS = GLOBAL.TUNING.WILSON_BEARD_BITS
+    if bits >= BITS.LEVEL3 then
+        combat.externaldamagetakenmultipliers:SetModifier(inst, 0.925, "wilson_beard_beast")
+    elseif bits >= BITS.LEVEL2 then
+        combat.externaldamagetakenmultipliers:SetModifier(inst, 0.95, "wilson_beard_beast")
+    elseif bits >= BITS.LEVEL1 then
+        combat.externaldamagetakenmultipliers:SetModifier(inst, 0.975, "wilson_beard_beast")
+    else
+        combat.externaldamagetakenmultipliers:RemoveModifier(inst, "wilson_beard_beast")
+    end
+end
+
 AddComponentPostInit("beard", function(self)
     local orig_Shave = self.Shave
     self.Shave = function(self_beard, who, withwhat)
@@ -437,11 +506,17 @@ AddComponentPostInit("beard", function(self)
         local result, reason = orig_Shave(self_beard, who, withwhat)
         if result then
             local stu = self_beard.inst.components.skilltreeupdater
-            if stu and stu:IsActivated("wilson_beard_beast") then
-                DoubleBeardHair(self_beard, bits_before)
+            if stu and stu:IsActivated("wilson_beard_shaved") then
+                SpawnBonusBeardHair(self_beard, bits_before, 0.5)
             end
         end
         return result, reason
+    end
+
+    local orig_UpdateBeardInventory = self.UpdateBeardInventory
+    self.UpdateBeardInventory = function(self_beard)
+        orig_UpdateBeardInventory(self_beard)
+        self_beard.inst:PushEvent("wilson_beard_bits_changed")
     end
 end)
 
@@ -463,22 +538,32 @@ local function AdvanceBeardLevel(beard)
     end
 end
 
-AddPrefabPostInit("glommerfuel", function(inst)
-    if not GLOBAL.TheWorld.ismastersim then return end
-    if inst.components.edible then
-        local orig_oneaten = inst.components.edible.oneaten
-        inst.components.edible.oneaten = function(food, eater)
-            if orig_oneaten then orig_oneaten(food, eater) end
-            if eater and eater.prefab == "wilson" then
-                local stu = eater.components.skilltreeupdater
-                if stu and stu:IsActivated("wilson_beard_goop") then
-                    local beard = eater.components.beard
-                    if beard then AdvanceBeardLevel(beard) end
-                end
-            end
+local function GoopEaten(food, eater)
+    if eater and eater.prefab == "wilson" then
+        local stu = eater.components.skilltreeupdater
+        if stu and stu:IsActivated("wilson_beard_goop") then
+            local beard = eater.components.beard
+            if beard then AdvanceBeardLevel(beard) end
         end
     end
-end)
+end
+
+local function AddGoopHook(prefab_name)
+    AddPrefabPostInit(prefab_name, function(inst)
+        if not GLOBAL.TheWorld.ismastersim then return end
+        if inst.components.edible then
+            local orig_oneaten = inst.components.edible.oneaten
+            inst.components.edible.oneaten = function(food, eater)
+                if orig_oneaten then orig_oneaten(food, eater) end
+                GoopEaten(food, eater)
+            end
+        end
+    end)
+end
+
+AddGoopHook("glommerfuel")
+AddGoopHook("milkywhites")
+AddGoopHook("phlegm")
 
 -- Chilly Beard: tag the beard_sack with "fridge" + "nocool"
 local function RefreshChillyTags(beardsack)
@@ -528,9 +613,15 @@ AddPrefabPostInit("beard_sack_3", BeardSackPostInit)
 AddPrefabPostInit("wilson", function(inst)
     if not GLOBAL.TheWorld.ismastersim then return end
 
-    -- Shaved sanity bonus
+    -- Shaved sanity bonus + protection refresh
     inst:ListenForEvent("shaved", function(inst)
         ApplyShavedSanityBonus(inst)
+        RefreshBeastProtection(inst)
+    end)
+
+    -- Beast of a Man protection refresh on beard growth
+    inst:ListenForEvent("wilson_beard_bits_changed", function(inst)
+        RefreshBeastProtection(inst)
     end)
 
     -- Light speed buff listeners
@@ -647,7 +738,7 @@ end)
 ----------------------------------------------------------------------------------
 local SkillTreeDefs   = require("prefabs/skilltree_defs")
 local BuildSkillsData = require("prefabs/skilltree_wilson_rework")
-local data            = BuildSkillsData(SkillTreeDefs.FN)
+local data            = BuildSkillsData(SkillTreeDefs.FN, REVERT_ALCHEMY)
 SkillTreeDefs.CreateSkillTreeFor("wilson", data.SKILLS)
 SkillTreeDefs.SKILLTREE_ORDERS["wilson"] = data.ORDERS
 
